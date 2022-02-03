@@ -36,8 +36,13 @@ public class Cuber {
     private Set<Event> mainevents = new HashSet<>();
 
     @NotNull
+    @OneToMany(mappedBy = "cuber")
+    private Set<CuberCubes> cubes = new HashSet<>();
+
+    @NotNull
     @OneToMany(mappedBy = "cuber", fetch = FetchType.LAZY)
     private Set<Time> times = new HashSet<>();
+
 
     @Override
     public boolean equals(Object o) {
@@ -107,5 +112,13 @@ public class Cuber {
 
     public void setTimes(Set<Time> times) {
         this.times = times;
+    }
+
+    public Set<CuberCubes> getCubes() {
+        return cubes;
+    }
+
+    public void setCubes(Set<CuberCubes> cuberCubes) {
+        this.cubes = cuberCubes;
     }
 }
