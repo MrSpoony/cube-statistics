@@ -27,10 +27,6 @@ public class CuberService {
         }
     }
 
-    public Cuber findById(Integer id) {
-        return cuberRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-    }
-
     public void update(Cuber cuber) {
         if (cuber == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         try {
@@ -47,6 +43,10 @@ public class CuberService {
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
+    }
+
+    public Cuber findById(Integer id) {
+        return cuberRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     public Iterable<Cuber> findByName(String name) {

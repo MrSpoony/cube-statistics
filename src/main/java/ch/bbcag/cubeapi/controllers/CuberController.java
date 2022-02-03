@@ -33,4 +33,19 @@ public class CuberController {
     public Iterable<Cuber> findByName(@RequestParam(required = false) String name) {
         return cuberService.findByName(name);
     }
+
+    @DeleteMapping(path = "{id}")
+    public void deleteById(@PathVariable Integer id) {
+        cuberService.deleteById(id);
+    }
+
+    @PostMapping()
+    public void insert(@RequestBody Cuber cuber) {
+        cuberService.insert(cuber);
+    }
+
+    @PutMapping
+    public void update(@RequestBody Cuber cuber) {
+        cuberService.update(cuber);
+    }
 }
