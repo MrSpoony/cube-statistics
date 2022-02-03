@@ -4,9 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
@@ -35,7 +33,7 @@ public class Cuber {
     @ManyToMany
     @JoinTable(name = "cuber_has_mainevent",
             joinColumns = @JoinColumn(name = "cuber_id"),
-            inverseJoinColumns = @JoinColumn(name = "cube_id"))
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> mainevents = new HashSet<>();
 
     @Override
@@ -45,6 +43,7 @@ public class Cuber {
         Cuber cuber = (Cuber) o;
         return id == cuber.id;
     }
+
 
     @Override
     public int hashCode() {
@@ -89,5 +88,13 @@ public class Cuber {
 
     public void setCountry(Country country) {
         this.country = country;
+    }
+
+    public Set<Event> getMainevents() {
+        return mainevents;
+    }
+
+    public void setMainevents(Set<Event> mainevents) {
+        this.mainevents = mainevents;
     }
 }
