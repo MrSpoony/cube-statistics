@@ -24,6 +24,11 @@ public class Time {
     @JoinColumn(name = "competition_id")
     private Competition competition;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "cube_id")
+    private Cube cube;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,5 +72,13 @@ public class Time {
 
     public void setCompetition(Competition competition) {
         this.competition = competition;
+    }
+
+    public Cube getCube() {
+        return cube;
+    }
+
+    public void setCube(Cube cube) {
+        this.cube = cube;
     }
 }
