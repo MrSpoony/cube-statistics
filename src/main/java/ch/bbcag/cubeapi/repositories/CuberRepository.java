@@ -23,26 +23,5 @@ public interface CuberRepository extends CrudRepository<Cuber, Integer> {
             "JOIN cc.cube c " +
             "WHERE cc.maincube IS true " +
             "AND c.name LIKE CONCAT('%', :cubename, '%')")
-    Iterable<Cuber> findCuberByMainCubename(@Param("cubename") String cubename);
-
-    @Query("SELECT cr FROM Cuber cr " +
-            "JOIN cr.cubes cc " +
-            "JOIN cc.cube c " +
-            "WHERE cc.maincube IS true " +
-            "AND c.name LIKE CONCAT('%', :cubename, '%') " +
-            "AND (cr.firstname LIKE CONCAT('%', :name, '%') " +
-            "OR cr.lastname LIKE CONCAT('%', :name, '%'))")
-    Iterable<Cuber> findCuberByNameAndMainCubename(@Param("name") String name, @Param("cubename") String cubename);
-
-    @Query("SELECT cr FROM Cuber cr " +
-            "JOIN cr.cubes cc " +
-            "JOIN cc.cube c " +
-            "WHERE cc.maincube IS true " +
-            "AND c.name LIKE CONCAT('%', :cubename, '%') " +
-            "AND cr.firstname LIKE CONCAT('%', :first, '%') " +
-            "AND cr.lastname LIKE CONCAT('%', :last, '%')")
-    Iterable<Cuber> findCuberByFirstNameAndLastNameAndMainCubename(
-            @Param("first") String first,
-            @Param("last") String last,
-            @Param("cubename") String cubename);
+    Iterable<Cuber> findByMaincube(@Param("cubename") String cubename);
 }

@@ -1,5 +1,6 @@
 package ch.bbcag.cubeapi.services;
 
+import ch.bbcag.cubeapi.common.IterableHelper;
 import ch.bbcag.cubeapi.models.Cuber;
 import ch.bbcag.cubeapi.repositories.CuberRepository;
 import org.apache.logging.log4j.util.Strings;
@@ -16,6 +17,8 @@ public class CuberService {
 
     @Autowired
     private final CuberRepository cuberRepository;
+
+    private final IterableHelper<Cuber> iterableHelper = new IterableHelper<>();
 
     public CuberService(CuberRepository cuberRepository) {
         this.cuberRepository = cuberRepository;
@@ -53,14 +56,22 @@ public class CuberService {
 
     public Iterable<Cuber> findByNameAndOrMainCubename(String name, String mainCubename) {
         if (Strings.isBlank(name) && Strings.isBlank(mainCubename)) return cuberRepository.findAll();
-        else if (Strings.isBlank(name)) return cuberRepository.findCuberByMainCubename(mainCubename);
+        else if (Strings.isBlank(name)) return cuberRepository.findByMaincube(mainCubename);
         else if (Strings.isBlank(mainCubename))
             return findByName(name);
         else {
             if (name.contains(" ")) {
                 String[] names = splitNameOnLastSpace(name);
-                return cuberRepository.findCuberByFirstNameAndLastNameAndMainCubename(names[0], names[1], mainCubename);
-            } else return cuberRepository.findCuberByNameAndMainCubename(name, mainCubename);
+                return iterableHelper.intersectionOfIterables(
+                        cuberRepository.findByFirstNameAndLastName(names[0], names[1]),
+                        cuberRepository.findByMaincube(mainCubename)
+                );
+            } else {
+                return iterableHelper.intersectionOfIterables(
+                        cuberRepository.findByName(name),
+                        cuberRepository.findByMaincube(mainCubename)
+                );
+            }
         }
     }
 
