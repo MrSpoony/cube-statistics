@@ -21,16 +21,12 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "/cubers")
 public class CuberController {
-
-    private CuberRepository cuberRepository;
-
-    @Bean
-    public CuberService cuberService() {
-        return new CuberService((cuberRepository));
-    }
-
     @Autowired
     private CuberService cuberService;
+
+    public CuberController(CuberService cuberService) {
+        this.cuberService = cuberService;
+    }
 
 
     @GetMapping(path = "{id}")
