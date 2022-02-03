@@ -13,8 +13,7 @@ public class Time {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotNull
-    private float time;
+    private Float time;
 
     @NotNull
     @ManyToOne
@@ -53,11 +52,11 @@ public class Time {
         this.id = id;
     }
 
-    public float getTime() {
+    public Float getTime() {
         return time;
     }
 
-    public void setTime(float time) {
+    public void setTime(Float time) {
         this.time = time;
     }
 
