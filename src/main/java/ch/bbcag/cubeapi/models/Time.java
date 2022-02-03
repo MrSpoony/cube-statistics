@@ -1,10 +1,12 @@
 package ch.bbcag.cubeapi.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
-
+@Entity
 public class Time {
 
     @Id
@@ -17,6 +19,7 @@ public class Time {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "cuber_id")
+    @JsonBackReference
     private Cuber cuber;
 
     @NotNull

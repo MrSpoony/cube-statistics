@@ -65,4 +65,12 @@ public class Event {
     public void setWcalegal(boolean wcalegal) {
         this.wcalegal = wcalegal;
     }
+
+    public Set<Cuber> getCubersWithThisMainevent() {
+        return cubersWithThisMainevent;
+    }
+
+    public void setCubersWithThisMainevent(Set<Cuber> cubersWithThisMainevent) {
+        this.cubersWithThisMainevent = cubersWithThisMainevent;
+    }
 }

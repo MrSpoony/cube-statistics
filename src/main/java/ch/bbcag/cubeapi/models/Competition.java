@@ -6,7 +6,7 @@ import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.Objects;
 
-
+@Entity
 public class Competition {
 
     @Id

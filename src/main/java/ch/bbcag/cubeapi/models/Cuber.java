@@ -28,13 +28,16 @@ public class Cuber {
     @JoinColumn(name = "country_id")
     private Country country;
 
-
     @NotNull
     @ManyToMany
     @JoinTable(name = "cuber_has_mainevent",
             joinColumns = @JoinColumn(name = "cuber_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     private Set<Event> mainevents = new HashSet<>();
+
+    @NotNull
+    @OneToMany(mappedBy = "cuber", fetch = FetchType.LAZY)
+    private Set<Time> times = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
@@ -96,5 +99,13 @@ public class Cuber {
 
     public void setMainevents(Set<Event> mainevents) {
         this.mainevents = mainevents;
+    }
+
+    public Set<Time> getTimes() {
+        return times;
+    }
+
+    public void setTimes(Set<Time> times) {
+        this.times = times;
     }
 }
