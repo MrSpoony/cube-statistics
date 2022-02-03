@@ -50,13 +50,12 @@ public class CuberService {
     }
 
     public Iterable<Cuber> findByName(String name) {
-        if (name.contains(" ")) {
+        if (Strings.isBlank(name)) return cuberRepository.findAll();
+        else if(name.contains(" ")) {
             return cuberRepository.findByFirstNameAndLastName(
                     name.split(" ")[0],
                     name.split(" ")[1]);
-        } else if (Strings.isNotBlank(name)) {
-            return cuberRepository.findByName(name);
         }
-        return cuberRepository.findAll();
+        return cuberRepository.findByName(name);
     }
 }
