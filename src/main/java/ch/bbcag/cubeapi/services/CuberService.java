@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+
 @Service
 public class CuberService {
 
@@ -50,13 +51,35 @@ public class CuberService {
         return cuberRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Iterable<Cuber> findByName(String name) {
-        if (Strings.isBlank(name)) return cuberRepository.findAll();
-        else if(name.contains(" ")) {
-            return cuberRepository.findByFirstNameAndLastName(
-                    name.split(" ")[0],
-                    name.split(" ")[1]);
+    public Iterable<Cuber> findByNameAndOrMainCubename(String name, String mainCubename) {
+        if (Strings.isBlank(name) && Strings.isBlank(mainCubename)) return cuberRepository.findAll();
+        else if (Strings.isBlank(name)) return cuberRepository.findCuberByMainCubename(mainCubename);
+        else if (Strings.isBlank(mainCubename))
+            return findByName(name);
+        else {
+            if (name.contains(" ")) {
+                String[] names = splitNameOnLastSpace(name);
+                return cuberRepository.findCuberByFirstNameAndLastNameAndMainCubename(names[0], names[1], mainCubename);
+            } else return cuberRepository.findCuberByNameAndMainCubename(name, mainCubename);
         }
-        return cuberRepository.findByName(name);
+    }
+
+    private Iterable<Cuber> findByName(String name) {
+        if (name.contains(" ")) {
+            String[] names = splitNameOnLastSpace(name);
+            return cuberRepository.findByFirstNameAndLastName(names[0], names[1]);
+        } else {
+            return cuberRepository.findByName(name);
+        }
+    }
+
+    private String[] splitNameOnLastSpace(String name) {
+        String[] names = name.split(" ");
+        String lastname = names[names.length - 1];
+        String firstname = "";
+        for (int i = 0; i < names.length - 1; i++) {
+            firstname += names[i];
+        }
+        return new String[]{firstname, lastname};
     }
 }
