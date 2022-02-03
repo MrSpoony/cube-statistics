@@ -16,5 +16,33 @@ public interface CuberRepository extends CrudRepository<Cuber, Integer> {
     @Query("SELECT c FROM Cuber c " +
             "WHERE c.firstname LIKE CONCAT('%', :first, '%') " +
             "AND c.lastname LIKE CONCAT('%', :last, '%')")
-    Iterable<Cuber> findByFirstNameAndLastName(String first, String last);
+    Iterable<Cuber> findByFirstNameAndLastName(@Param("first") String first, @Param("last") String last);
+
+    @Query("SELECT cr FROM Cuber cr " +
+            "JOIN cr.cubes cc " +
+            "JOIN cc.cube c " +
+            "WHERE cc.maincube IS true " +
+            "AND c.name LIKE CONCAT('%', :cubename, '%')")
+    Iterable<Cuber> findCuberByMainCubename(@Param("cubename") String cubename);
+
+    @Query("SELECT cr FROM Cuber cr " +
+            "JOIN cr.cubes cc " +
+            "JOIN cc.cube c " +
+            "WHERE cc.maincube IS true " +
+            "AND c.name LIKE CONCAT('%', :cubename, '%') " +
+            "AND (cr.firstname LIKE CONCAT('%', :name, '%') " +
+            "OR cr.lastname LIKE CONCAT('%', :name, '%'))")
+    Iterable<Cuber> findCuberByNameAndMainCubename(@Param("name") String name, @Param("cubename") String cubename);
+
+    @Query("SELECT cr FROM Cuber cr " +
+            "JOIN cr.cubes cc " +
+            "JOIN cc.cube c " +
+            "WHERE cc.maincube IS true " +
+            "AND c.name LIKE CONCAT('%', :cubename, '%') " +
+            "AND cr.firstname LIKE CONCAT('%', :first, '%') " +
+            "AND cr.lastname LIKE CONCAT('%', :last, '%')")
+    Iterable<Cuber> findCuberByFirstNameAndLastNameAndMainCubename(
+            @Param("first") String first,
+            @Param("last") String last,
+            @Param("cubename") String cubename);
 }
