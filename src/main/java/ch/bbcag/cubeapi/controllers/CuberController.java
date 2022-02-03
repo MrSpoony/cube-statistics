@@ -66,8 +66,11 @@ public class CuberController {
                                             """) @RequestParam(required = false) String name,
                                       @Parameter(description = """
                                             Name of the main cube from the cuber you want to search for.
-                                            """) @RequestParam(required = false) String cubename) {
-        return cuberService.findByNameAndOrMainCubename(name, cubename);
+                                            """) @RequestParam(required = false) String maincube,
+                                      @Parameter(description = """
+                                            Name of the main event from the cuber you want to search for.
+                                            """) @RequestParam(required = false) String mainevent) {
+        return cuberService.findByNameAndOrMainCubename(name, maincube, mainevent);
     }
 
     @DeleteMapping(path = "{id}")

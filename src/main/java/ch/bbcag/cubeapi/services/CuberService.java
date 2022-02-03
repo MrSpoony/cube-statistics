@@ -11,6 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Service
 public class CuberService {
@@ -54,31 +58,23 @@ public class CuberService {
         return cuberRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Iterable<Cuber> findByNameAndOrMainCubename(String name, String mainCubename) {
-        if (Strings.isBlank(name) && Strings.isBlank(mainCubename)) return cuberRepository.findAll();
-        else if (Strings.isBlank(name)) return cuberRepository.findByMaincube(mainCubename);
-        else if (Strings.isBlank(mainCubename))
-            return findByName(name);
-        else {
-            if (name.contains(" ")) {
-                String[] names = splitNameOnLastSpace(name);
-                return iterableHelper.intersectionOfIterables(
-                        cuberRepository.findByFirstNameAndLastName(names[0], names[1]),
-                        cuberRepository.findByMaincube(mainCubename)
-                );
-            } else {
-                return iterableHelper.intersectionOfIterables(
-                        cuberRepository.findByName(name),
-                        cuberRepository.findByMaincube(mainCubename)
-                );
-            }
+    public Iterable<Cuber> findByNameAndOrMainCubename(String name, String maincube, String mainevent) {
+        if (Strings.isBlank(name) && Strings.isBlank(maincube) && Strings.isBlank(mainevent)) {
+            return cuberRepository.findAll();
         }
+        Iterable<Cuber> cubersByName = new HashSet<>();
+        Iterable<Cuber> cubersByMaincube = new HashSet<>();
+        Iterable<Cuber> cubersByMainevent = new HashSet<>();
+        if (Strings.isNotBlank(name)) cubersByName = findByName(name);
+        if (Strings.isNotBlank(maincube)) cubersByMaincube = cuberRepository.findByMaincube(maincube);
+        if (Strings.isNotBlank(mainevent)) cubersByMainevent = cuberRepository.findByMainevent(mainevent);
+        return iterableHelper.intersectionOfThreeIterables(cubersByName, cubersByMaincube, cubersByMainevent);
     }
 
     private Iterable<Cuber> findByName(String name) {
         if (name.contains(" ")) {
             String[] names = splitNameOnLastSpace(name);
-            return cuberRepository.findByFirstNameAndLastName(names[0], names[1]);
+            return cuberRepository.findByFirstnameAndLastname(names[0], names[1]);
         } else {
             return cuberRepository.findByName(name);
         }
