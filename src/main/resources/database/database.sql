@@ -148,6 +148,7 @@ CREATE TABLE IF NOT EXISTS cube_db.`time`
     `time`           FLOAT NULL,
     `cuber_id`       INT   NOT NULL,
     `competition_id` INT   NOT NULL,
+    `cube_id`        INT   NOT NULL,
     PRIMARY KEY (`id`),
     INDEX `fk_time_cuber_idx` (`cuber_id` ASC) VISIBLE,
     INDEX `fk_time_competition1_idx` (`competition_id` ASC) VISIBLE,
@@ -160,6 +161,11 @@ CREATE TABLE IF NOT EXISTS cube_db.`time`
         FOREIGN KEY (`competition_id`)
             REFERENCES cube_db.`competition` (`id`)
             ON DELETE CASCADE
+            ON UPDATE NO ACTION,
+    CONSTRAINT `fk_time_cube`
+        FOREIGN KEY (`cube_id`)
+            REFERENCES cube_db.`cube` (`id`)
+            ON DELETE NO ACTION
             ON UPDATE NO ACTION
 )
     ENGINE = InnoDB;
