@@ -2,7 +2,6 @@ package ch.bbcag.cubeapi.controllers;
 
 
 import ch.bbcag.cubeapi.models.Cuber;
-import ch.bbcag.cubeapi.repositories.CuberRepository;
 import ch.bbcag.cubeapi.services.CuberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,7 +10,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,8 +42,9 @@ public class CuberController {
     }
 
     @GetMapping
-    @Operation(summary = "Find Cubers by their name " +
-            "and the lastname, " +
+    @Operation(summary = "Find Cubers by their first- " +
+            "and/or lastname, " +
+            "and/or their maincube, " +
             "if argument is not given return all Cubers.")
     @ApiResponses(value = {
             @ApiResponse(
@@ -59,11 +58,16 @@ public class CuberController {
                     description = "No cuber found with given Argument(s)")
     })
     public Iterable<Cuber> findByName(@Parameter(description = """
-            Name is seperated by space character
-            if there is no space in the name, search starts for first- and lastnames,
-            if there is a space search starts for the firstname with the part before the first space
-            if argument is not given return all Cubers.""") @RequestParam(required = false) String name) {
-        return cuberService.findByName(name);
+                                            Name is seperated by space character
+                                            if there is no space in the name, search starts for first- and lastnames,
+                                            if there is a space search starts for the firstname
+                                            with the part before the last space
+                                            if argument is not given return all Cubers.
+                                            """) @RequestParam(required = false) String name,
+                                      @Parameter(description = """
+                                            Name of the main cube from the cuber you want to search for.
+                                            """) @RequestParam(required = false) String cubename) {
+        return cuberService.findByNameAndOrMainCubename(name, cubename);
     }
 
     @DeleteMapping(path = "{id}")
