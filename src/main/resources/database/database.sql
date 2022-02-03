@@ -250,7 +250,7 @@ START TRANSACTION;
 INSERT INTO cube_db.cube (name, event_id, manufacture_id)
 VALUES ('RS3M 2020', 1, 1),
        ('11 M Pro', 1, 2),
-       ('Yoooo Cube', 1, 1)
+       ('The Yoo Cube', 1, 1)
 ;
 COMMIT;
 
@@ -298,12 +298,12 @@ VALUES ('Offline Schwyz Sunday 2021', '2021-08-16', 1),
 COMMIT;
 
 START TRANSACTION;
-INSERT INTO cube_db.time (time, cuber_id, competition_id)
-VALUES (12.11, 1, 1),
-       (null, 1, 1),
-       (19.84, 1, 1),
-       (13.87, 1, 1),
-       (17.42, 1, 1)
+INSERT INTO cube_db.time (time, cuber_id, competition_id, cube_id)
+VALUES (12.11, 1, 1, 3),
+       (null, 1, 1, 3),
+       (19.84, 1, 1, 3),
+       (13.87, 1, 1, 3),
+       (17.42, 1, 1, 3)
 ;
 COMMIT;
 
