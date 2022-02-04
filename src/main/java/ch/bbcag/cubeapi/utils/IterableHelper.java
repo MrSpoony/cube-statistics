@@ -1,4 +1,4 @@
-package ch.bbcag.cubeapi.common;
+package ch.bbcag.cubeapi.utils;
 
 import java.util.ArrayList;
 import java.util.HashSet;

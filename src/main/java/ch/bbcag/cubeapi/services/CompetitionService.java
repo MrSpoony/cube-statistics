@@ -1,6 +1,6 @@
 package ch.bbcag.cubeapi.services;
 
-import ch.bbcag.cubeapi.common.IterableHelper;
+import ch.bbcag.cubeapi.utils.IterableHelper;
 import ch.bbcag.cubeapi.models.Competition;
 import ch.bbcag.cubeapi.repositories.CompetitionRepository;
 import org.apache.logging.log4j.util.Strings;

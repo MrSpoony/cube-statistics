@@ -1,6 +1,6 @@
 package ch.bbcag.cubeapi.services;
 
-import ch.bbcag.cubeapi.common.IterableHelper;
+import ch.bbcag.cubeapi.utils.IterableHelper;
 import ch.bbcag.cubeapi.models.Cuber;
 import ch.bbcag.cubeapi.repositories.CuberRepository;
 import org.apache.logging.log4j.util.Strings;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.ConstraintViolationException;
 import java.util.HashSet;
 
 
@@ -47,7 +48,7 @@ public class CuberService {
         if (cuber == null) throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         try {
             cuberRepository.save(cuber);
-        } catch (DataIntegrityViolationException e) {
+        } catch (ConstraintViolationException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
     }
@@ -81,12 +82,14 @@ public class CuberService {
             cubersByCountry = setNullIfEmpty(cubersByCountry);
         }
 
-        iterableHelper.clearStored();
-        for (Iterable<Cuber> cubersByX : new Iterable[]{
+        Iterable<Cuber>[] cubers = new Iterable[]{
                 cubersByName,
                 cubersByMaincube,
                 cubersByMainevent,
-                cubersByCountry}) {
+                cubersByCountry};
+
+        iterableHelper.clearStored();
+        for (Iterable<Cuber> cubersByX : cubers) {
             if (cubersByX == null) {
                 return new HashSet<Cuber>();
             } else if (iterableHelper.sizeOfIterable(cubersByX) > 0) {
