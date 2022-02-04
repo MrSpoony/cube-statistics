@@ -1,8 +1,7 @@
 package ch.bbcag.cubeapi.controllers;
 
-
-import ch.bbcag.cubeapi.models.Cuber;
-import ch.bbcag.cubeapi.services.CuberService;
+import ch.bbcag.cubeapi.models.Competition;
+import ch.bbcag.cubeapi.services.CompetitionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,51 +16,51 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(path = "/cubers")
-public class CuberController {
-    @Autowired
-    private CuberService cuberService;
+@RequestMapping("/competitions")
+public class CompetitionController {
 
-    public CuberController(CuberService cuberService) {
-        this.cuberService = cuberService;
+    @Autowired
+    private CompetitionService competitionService;
+
+    public CompetitionController(CompetitionService competitionService) {
+        this.competitionService = competitionService;
     }
 
 
     @GetMapping(path = "{id}")
-    @Operation(summary = "Find a cuber by it's id")
+    @Operation(summary = "Find a competition by it's id")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cuber found!",
+            @ApiResponse(responseCode = "200", description = "Competition found!",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = Cuber.class)
+                            schema = @Schema(implementation = Competition.class)
                     )}),
-            @ApiResponse(responseCode = "404", description = "No cuber with this id found.")
+            @ApiResponse(responseCode = "404", description = "No competition with this id found.")
     })
-    public Cuber findById(@PathVariable Integer id) {
-        return cuberService.findById(id);
+    public Competition findById(@PathVariable Integer id) {
+        return competitionService.findById(id);
     }
+
 
     @GetMapping
     @Operation(summary = """
-            Find Cubers by their first-
-            and/or lastname,
-            and/or their maincube,
-            and/or their mainevent
+            Find Competitions by their name
+            and/or their cubers that competed,
             and/or their country.
             Use multiple arguments are to specify your search.
-            If no argument is given returns all Cubers.""")
+            If no argument is given returns all Competitions.""")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Cuber(s) found!",
+                    description = "Competition(s) found!",
                     content = {@Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = Cuber.class))}),
+                            schema = @Schema(implementation = Competition.class))}),
             @ApiResponse(
                     responseCode = "404",
                     description = "No cuber found with given Argument(s)")
     })
-    public Iterable<Cuber> findByName(
+    public Iterable<Competition> findByName(
             @Parameter(description = """
                     Name is seperated by space character
                     if there is no space in the name, search starts for first- and lastnames,
@@ -71,50 +70,47 @@ public class CuberController {
                     """) @RequestParam(required = false) String name,
             @Parameter(description = """
                     Name of the main cube from the cuber you want to search for.
-                    """) @RequestParam(required = false) String maincube,
-            @Parameter(description = """
-                    Name of the main event from the cuber you want to search for.
-                    """) @RequestParam(required = false) String mainevent,
+                    """) @RequestParam(required = false) String cuber,
             @Parameter(description = """
                     Name of the country from the cuber you want to search for.
                     """) @RequestParam(required = false) String country) {
-        return cuberService.findCubers(name, maincube, mainevent, country);
+        return competitionService.findCompetitions(name, cuber, country);
     }
 
     @DeleteMapping(path = "{id}")
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Delete an existing cuber")
+    @Operation(summary = "Delete an existing competition")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Cuber successfully deleted"),
+                    description = "Competition successfully deleted"),
             @ApiResponse(
                     responseCode = "404",
-                    description = "This cuber does not exist.")
+                    description = "This competition does not exist.")
     })
     public void deleteById(@PathVariable Integer id) {
-        cuberService.deleteById(id);
+        competitionService.deleteById(id);
     }
 
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Add a new cuber.")
+    @Operation(summary = "Add a new competition.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Cuber successfully added"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new Cuber")
+            @ApiResponse(responseCode = "201", description = "competition successfully added"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new Competition")
     })
-    public void insert(@RequestBody @Valid Cuber cuber) {
-        cuberService.insert(cuber);
+    public void insert(@RequestBody @Valid Competition competition) {
+        competitionService.insert(competition);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Update an existing cuber.")
+    @Operation(summary = "Update an existing competition.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Cuber successfully updated"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the Cuber")
+            @ApiResponse(responseCode = "200", description = "Competition successfully updated"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the Competition")
     })
-    public void update(@RequestBody @Valid Cuber cuber) {
-        cuberService.update(cuber);
+    public void update(@RequestBody @Valid Competition competition) {
+        competitionService.update(competition);
     }
 }

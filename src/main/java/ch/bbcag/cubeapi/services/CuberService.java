@@ -56,7 +56,7 @@ public class CuberService {
         return cuberRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Iterable<Cuber> findByNameAndOrMainCubename(String name, String maincube, String mainevent, String country) {
+    public Iterable<Cuber> findCubers(String name, String maincube, String mainevent, String country) {
         if (Strings.isBlank(name) && Strings.isBlank(maincube) && Strings.isBlank(mainevent) && Strings.isBlank(country)) {
             return cuberRepository.findAll();
         }
