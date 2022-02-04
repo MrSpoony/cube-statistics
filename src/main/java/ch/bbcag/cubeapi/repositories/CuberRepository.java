@@ -29,4 +29,9 @@ public interface CuberRepository extends CrudRepository<Cuber, Integer> {
             "JOIN c.mainevents m " +
             "WHERE m.name LIKE CONCAT('%', :mainevent, '%')")
     Iterable<Cuber> findByMainevent(@Param("mainevent") String mainevent);
+
+    @Query("SELECT c from Cuber c " +
+            "JOIN c.country co " +
+            "WHERE co.name LIKE CONCAT('%', :country, '%')")
+    Iterable<Cuber> findByCountry(@Param("country") String country);
 }

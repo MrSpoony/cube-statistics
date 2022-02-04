@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 
 @Service
@@ -58,17 +56,29 @@ public class CuberService {
         return cuberRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Iterable<Cuber> findByNameAndOrMainCubename(String name, String maincube, String mainevent) {
-        if (Strings.isBlank(name) && Strings.isBlank(maincube) && Strings.isBlank(mainevent)) {
+    public Iterable<Cuber> findByNameAndOrMainCubename(String name, String maincube, String mainevent, String country) {
+        if (Strings.isBlank(name) && Strings.isBlank(maincube) && Strings.isBlank(mainevent) && Strings.isBlank(country)) {
             return cuberRepository.findAll();
         }
         Iterable<Cuber> cubersByName = new HashSet<>();
         Iterable<Cuber> cubersByMaincube = new HashSet<>();
         Iterable<Cuber> cubersByMainevent = new HashSet<>();
+        Iterable<Cuber> cubersByCountry = new HashSet<>();
         if (Strings.isNotBlank(name)) cubersByName = findByName(name);
         if (Strings.isNotBlank(maincube)) cubersByMaincube = cuberRepository.findByMaincube(maincube);
         if (Strings.isNotBlank(mainevent)) cubersByMainevent = cuberRepository.findByMainevent(mainevent);
-        return iterableHelper.intersectionOfThreeIterables(cubersByName, cubersByMaincube, cubersByMainevent);
+        if (Strings.isNotBlank(country)) cubersByCountry = cuberRepository.findByCountry(country);
+
+        iterableHelper.clearStored();
+        for (Iterable<Cuber> cubersByX : new Iterable[]{cubersByName,
+                                                        cubersByMaincube,
+                                                        cubersByMainevent,
+                                                        cubersByCountry}) {
+            if (iterableHelper.sizeOfIterable(cubersByX) > 0) {
+                iterableHelper.addIterableToIntersectionOfStored(cubersByX);
+            }
+        }
+        return iterableHelper.getStored();
     }
 
     private Iterable<Cuber> findByName(String name) {
