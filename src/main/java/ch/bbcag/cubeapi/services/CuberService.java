@@ -64,21 +64,41 @@ public class CuberService {
         Iterable<Cuber> cubersByMaincube = new HashSet<>();
         Iterable<Cuber> cubersByMainevent = new HashSet<>();
         Iterable<Cuber> cubersByCountry = new HashSet<>();
-        if (Strings.isNotBlank(name)) cubersByName = findByName(name);
-        if (Strings.isNotBlank(maincube)) cubersByMaincube = cuberRepository.findByMaincube(maincube);
-        if (Strings.isNotBlank(mainevent)) cubersByMainevent = cuberRepository.findByMainevent(mainevent);
-        if (Strings.isNotBlank(country)) cubersByCountry = cuberRepository.findByCountry(country);
+        if (Strings.isNotBlank(name)) {
+            cubersByName = findByName(name);
+            cubersByName = setNullIfEmpty(cubersByName);
+        }
+        if (Strings.isNotBlank(maincube)) {
+            cubersByMaincube = cuberRepository.findByMaincube(maincube);
+            cubersByMaincube = setNullIfEmpty(cubersByMaincube);
+        }
+        if (Strings.isNotBlank(mainevent)) {
+            cubersByMainevent = cuberRepository.findByMainevent(mainevent);
+            cubersByMainevent = setNullIfEmpty(cubersByMainevent);
+        }
+        if (Strings.isNotBlank(country)) {
+            cubersByCountry = cuberRepository.findByCountry(country);
+            cubersByCountry = setNullIfEmpty(cubersByCountry);
+        }
 
         iterableHelper.clearStored();
-        for (Iterable<Cuber> cubersByX : new Iterable[]{cubersByName,
-                                                        cubersByMaincube,
-                                                        cubersByMainevent,
-                                                        cubersByCountry}) {
-            if (iterableHelper.sizeOfIterable(cubersByX) > 0) {
+        for (Iterable<Cuber> cubersByX : new Iterable[]{
+                cubersByName,
+                cubersByMaincube,
+                cubersByMainevent,
+                cubersByCountry}) {
+            if (cubersByX == null) {
+                return new HashSet<Cuber>();
+            } else if (iterableHelper.sizeOfIterable(cubersByX) > 0) {
                 iterableHelper.addIterableToIntersectionOfStored(cubersByX);
             }
         }
         return iterableHelper.getStored();
+    }
+
+    private Iterable<Cuber> setNullIfEmpty(Iterable<Cuber> cubers) {
+        if (iterableHelper.sizeOfIterable(cubers) == 0) return null;
+        else return cubers;
     }
 
     private Iterable<Cuber> findByName(String name) {
