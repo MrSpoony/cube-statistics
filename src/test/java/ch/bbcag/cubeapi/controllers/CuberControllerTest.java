@@ -1,7 +1,7 @@
 package ch.bbcag.cubeapi.controllers;
 
+import ch.bbcag.cubeapi.controllers.rest.CuberController;
 import ch.bbcag.cubeapi.models.Cuber;
-import ch.bbcag.cubeapi.repositories.CuberRepository;
 import ch.bbcag.cubeapi.services.CuberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,19 +28,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 public class CuberControllerTest {
 
-    private static final String JSON_ALL_CUBERS = """
-            """;
-
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private CuberService cuberService;
 
-    @MockBean
-    private CuberRepository cuberRepository;
-
     @BeforeEach
+
     public void prepare() {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
@@ -49,8 +44,16 @@ public class CuberControllerTest {
     public void checkGet_whenNotExistingName_thenIsOkAndNoCuberIsReturned() throws Exception {
         mockMvc.perform(get("/cubers")
                         .contentType("application/json")
-                        .queryParam("name", "ThisIsANameWichDefinitelyDoesNotExist"))
+                        .queryParam("name", "ThisIsANameWhichDefinitelyDoesNotExist"))
                 .andExpect(status().isOk()).andExpect(content().string("[]"));
+    }
+
+    @Test
+    public void checkGet_whenExistingName_thenIsOk() throws Exception {
+        mockMvc.perform(get("/cubers")
+                        .contentType("application/json")
+                        .queryParam("name", "Kimi"))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -99,7 +102,7 @@ public class CuberControllerTest {
 
     @Test
     public void checkPost_whenInvalidCuber_thenIsConflict() throws Exception {
-        doThrow(ConstraintViolationException.class).when(cuberRepository).save(new Cuber());
+        doThrow(ConstraintViolationException.class).when(cuberService).insert(new Cuber());
         mockMvc.perform(post("/cubers")
                         .contentType("application/json")
                         .content("""
