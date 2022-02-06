@@ -1,4 +1,4 @@
-package ch.bbcag.cubeapi.controllers;
+package ch.bbcag.cubeapi.controllers.global;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.core.convert.ConversionFailedException;

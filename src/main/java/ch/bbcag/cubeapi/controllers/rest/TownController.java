@@ -1,4 +1,4 @@
-package ch.bbcag.cubeapi.controllers;
+package ch.bbcag.cubeapi.controllers.rest;
 
 import ch.bbcag.cubeapi.models.Town;
 import ch.bbcag.cubeapi.services.TownService;
