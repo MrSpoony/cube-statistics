@@ -2,6 +2,7 @@ package ch.bbcag.cubeapi.controllers.rest;
 
 import ch.bbcag.cubeapi.models.Competition;
 import ch.bbcag.cubeapi.services.CompetitionService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 import java.util.TimeZone;
 
+import static ch.bbcag.cubeapi.utils.TestData.getCompetitionTestData;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -30,9 +35,40 @@ class CompetitionControllerTest {
     @MockBean
     private CompetitionService competitionService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+
     @BeforeEach
     public void prepare() {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
+
+    @Test
+    public void checkGet_whenNotExistingName_thenIsOkAndNoCuberIsReturned() throws Exception {
+        mockMvc.perform(get("/competitions")
+                        .contentType("application/json")
+                        .queryParam("name", "ThisIsANameWhichDefinitelyDoesNotExist"))
+                .andExpect(status().isOk()).andExpect(content().json("[]"));
+    }
+
+    @Test
+    public void checkGet_whenNoParameter_thenIsOkAndCompetitionsAreReturned() throws Exception {
+        List<Competition> competitions = getCompetitionTestData();
+        String competitionsString = objectMapper.writeValueAsString(competitions);
+
+        doReturn(competitions).when(competitionService).findCompetitions(null,null,null);
+        mockMvc.perform(get("/competitions")
+                        .contentType("application/json"))
+                .andExpect(status().isOk()).andExpect(content().string(competitionsString));
+    }
+
+    @Test
+    public void checkGet_whenExistingName_thenIsOk() throws Exception {
+        mockMvc.perform(get("/competitions")
+                        .contentType("application/json")
+                        .queryParam("name", "Sunday"))
+                .andExpect(status().isOk());
     }
 
     @Test

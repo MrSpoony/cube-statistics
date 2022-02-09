@@ -27,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 public class CuberControllerTest {
 
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -43,7 +44,14 @@ public class CuberControllerTest {
         mockMvc.perform(get("/cubers")
                         .contentType("application/json")
                         .queryParam("name", "ThisIsANameWhichDefinitelyDoesNotExist"))
-                .andExpect(status().isOk()).andExpect(content().string("[]"));
+                .andExpect(status().isOk()).andExpect(content().json("[]"));
+    }
+
+    @Test
+    public void checkGet_whenNoParameter_thenIsOk() throws Exception {
+        mockMvc.perform(get("/cubers")
+                        .contentType("application/json"))
+                .andExpect(status().isOk());
     }
 
     @Test
