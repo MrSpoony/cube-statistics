@@ -1,6 +1,6 @@
-#Cube statistics
+# Cube statistics
 
-##Abstract
+## Abstract
 
 This is an API all about cubers, cubes and times.
 
@@ -18,9 +18,9 @@ there are also some extra search functions implemented.
 It is made by Kimi Löffel the owner of this project.
 
 
-##Overview
+## Overview
 
-###Install and run
+### Install and run
 
 First you need to clone this repository, you can accomplish this with the following.
 ```bash
@@ -44,7 +44,7 @@ Go to the first GET method click Try it out
 and without entering any queries hit execute.
 This should've returned multiple lines of JSON.
 
-###Overview of the database
+### Overview of the database
 
 On my [Entity Relation Diagram](###Entity Relation Diagram of the database)
 you can see the tables, so you can follow the explanation better.
@@ -63,13 +63,13 @@ A competition has to have a name, a date and a location. The location consists o
 and a town
 which has a postcode as well as a name and belongs to a country.
 
-###Entity Relation Diagram of the database
+### Entity Relation Diagram of the database
 
 <img src="src/main/resources/database/ERD.svg" alt="Entity Relation diagram">
 
 ##Information
 
-##What is the WCA
+## What is the WCA
 
 The WCA is the WorldCubeAssociation who organize Competitions,
 store your times, the times of every competitor and distribute the official awards.
