@@ -40,6 +40,18 @@ public class CountryController {
         return countryService.findById(id);
     }
 
+    @GetMapping
+    @Operation(summary = "Get every country")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Countries found!",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Country.class)
+                    )})
+    })
+    public Iterable<Country> findAll() {
+        return countryService.findAll();
+    }
 
     @DeleteMapping(path = "{id}")
     @ResponseStatus(HttpStatus.OK)

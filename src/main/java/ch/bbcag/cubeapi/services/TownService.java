@@ -50,4 +50,8 @@ public class TownService {
     public Town findById(Integer id) {
         return townRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    public Iterable<Town> findAll() {
+        return townRepository.findAll();
+    }
 }

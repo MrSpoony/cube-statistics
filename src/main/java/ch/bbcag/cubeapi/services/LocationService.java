@@ -49,4 +49,8 @@ public class LocationService {
     public Location findById(Integer id) {
         return locationRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    public Iterable<Location> findAll() {
+        return locationRepository.findAll();
+    }
 }

@@ -40,6 +40,18 @@ public class TownController {
         return townService.findById(id);
     }
 
+    @GetMapping
+    @Operation(summary = "Get every town")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Towns found!",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Town.class)
+                    )})
+    })
+    public Iterable<Town> findAll() {
+        return townService.findAll();
+    }
 
     @DeleteMapping(path = "{id}")
     @ResponseStatus(HttpStatus.OK)

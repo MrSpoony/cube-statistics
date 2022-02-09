@@ -40,6 +40,18 @@ public class ManufactureController {
         return manufactureService.findById(id);
     }
 
+    @GetMapping
+    @Operation(summary = "Get every manufacture")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Manufactures found!",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Manufacture.class)
+                    )})
+    })
+    public Iterable<Manufacture> findAll() {
+        return manufactureService.findAll();
+    }
 
     @DeleteMapping(path = "{id}")
     @ResponseStatus(HttpStatus.OK)

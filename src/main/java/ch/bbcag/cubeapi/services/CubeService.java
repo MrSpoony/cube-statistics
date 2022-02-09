@@ -50,4 +50,8 @@ public class CubeService {
     public Cube findById(Integer id) {
         return cubeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    public Iterable<Cube> findAll() {
+        return cubeRepository.findAll();
+    }
 }

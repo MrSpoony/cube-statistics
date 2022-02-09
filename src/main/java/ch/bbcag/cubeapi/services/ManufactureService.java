@@ -50,4 +50,8 @@ public class ManufactureService {
     public Manufacture findById(Integer id) {
         return manufactureRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    public Iterable<Manufacture> findAll() {
+        return manufactureRepository.findAll();
+    }
 }

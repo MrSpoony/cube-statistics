@@ -50,4 +50,8 @@ public class CountryService {
     public Country findById(Integer id) {
         return countryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    public Iterable<Country> findAll() {
+        return countryRepository.findAll();
+    }
 }

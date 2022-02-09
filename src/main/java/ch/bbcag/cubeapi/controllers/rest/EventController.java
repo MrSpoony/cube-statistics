@@ -40,6 +40,18 @@ public class EventController {
         return eventService.findById(id);
     }
 
+    @GetMapping
+    @Operation(summary = "Get every event")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Events found!",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Event.class)
+                    )})
+    })
+    public Iterable<Event> findAll() {
+        return eventService.findAll();
+    }
 
     @DeleteMapping(path = "{id}")
     @ResponseStatus(HttpStatus.OK)

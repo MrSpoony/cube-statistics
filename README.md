@@ -11,12 +11,10 @@ but obviously made in my style and with many fewer tables.
 
 There are Cubers, Cubes, Times, Events, Competitions, Countries, Towns and Locations.
 
-It is possible to search for each of the above
-(Currently only except the times). In the API of the Cuber and the Competition
-there are also some extra search functions implemented.
+Each of the above has the basic Crud functionalities implemented.
+There are also some extra search functions fore some Objects implemented.
 
 It is made by Kimi Löffel the owner of this project.
-
 
 ## Overview
 

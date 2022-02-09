@@ -40,6 +40,18 @@ public class LocationController {
         return locationService.findById(id);
     }
 
+    @GetMapping
+    @Operation(summary = "Get every location")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Locations found!",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Location.class)
+                    )})
+    })
+    public Iterable<Location> findAll() {
+        return locationService.findAll();
+    }
 
     @DeleteMapping(path = "{id}")
     @ResponseStatus(HttpStatus.OK)

@@ -40,6 +40,18 @@ public class CubeController {
         return cubeService.findById(id);
     }
 
+    @GetMapping
+    @Operation(summary = "Get every cube")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cubes found!",
+                    content = {@Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = Cube.class)
+                    )})
+    })
+    public Iterable<Cube> findAll() {
+        return cubeService.findAll();
+    }
 
     @DeleteMapping(path = "{id}")
     @ResponseStatus(HttpStatus.OK)
