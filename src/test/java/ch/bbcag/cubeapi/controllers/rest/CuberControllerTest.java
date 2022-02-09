@@ -104,7 +104,8 @@ public class CuberControllerTest {
                 .andExpect(content().string(cuberString));
     }
 
-    @Test void checkGet_whenExistingCountry_thenIsOkAndIsReturned() throws Exception {
+    @Test
+    void checkGet_whenExistingCountry_thenIsOkAndIsReturned() throws Exception {
         int index = 3;
         List<Cuber> cuber = getTestCuber(index);
         String cuberString = objectMapper.writeValueAsString(cuber);
