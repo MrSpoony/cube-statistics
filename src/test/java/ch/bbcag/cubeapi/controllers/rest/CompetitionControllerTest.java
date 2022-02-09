@@ -14,10 +14,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
-import static ch.bbcag.cubeapi.utils.TestData.getCompetitionTestData;
+import static ch.bbcag.cubeapi.utils.TestData.getTestCompetition;
+import static ch.bbcag.cubeapi.utils.TestData.getTestCompetitions;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -45,7 +47,7 @@ class CompetitionControllerTest {
     }
 
     @Test
-    public void checkGet_whenNotExistingName_thenIsOkAndNoCuberIsReturned() throws Exception {
+    public void checkGet_whenNotExistingName_thenIsOkAndNoCompetitionIsReturned() throws Exception {
         mockMvc.perform(get("/competitions")
                         .contentType("application/json")
                         .queryParam("name", "ThisIsANameWhichDefinitelyDoesNotExist"))
@@ -54,25 +56,40 @@ class CompetitionControllerTest {
 
     @Test
     public void checkGet_whenNoParameter_thenIsOkAndCompetitionsAreReturned() throws Exception {
-        List<Competition> competitions = getCompetitionTestData();
+        List<Competition> competitions = getTestCompetitions();
         String competitionsString = objectMapper.writeValueAsString(competitions);
 
-        doReturn(competitions).when(competitionService).findCompetitions(null,null,null);
+        doReturn(competitions).when(competitionService).findCompetitions(null, null, null);
         mockMvc.perform(get("/competitions")
                         .contentType("application/json"))
-                .andExpect(status().isOk()).andExpect(content().string(competitionsString));
+                .andExpect(status().isOk())
+                .andExpect(content().string(competitionsString));
     }
 
     @Test
-    public void checkGet_whenExistingName_thenIsOk() throws Exception {
+    public void checkGet_whenExistingName_thenIsOkAndCompetitionIsReturned() throws Exception {
+        List<Competition> competition = getTestCompetition();
+        String competitionString = objectMapper.writeValueAsString(competition);
+
+        doReturn(competition).when(competitionService).findCompetitions("0", null, null);
         mockMvc.perform(get("/competitions")
                         .contentType("application/json")
-                        .queryParam("name", "Sunday"))
-                .andExpect(status().isOk());
+                        .queryParam("name", "0"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(competitionString));
     }
 
     @Test
-    public void checkGetById_whenValidId_thenCuberIsReturned() throws Exception {
+    public void checkGet_whenNotExistingCountry_thenIsOkAndCompetitionIsReturned() throws Exception {
+        mockMvc.perform(get("/competitions")
+                        .contentType("application/json")
+                        .queryParam("country", "thisIsACountryWhichDefinitelyNoCuberCompetedFor"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("[]"));
+    }
+
+    @Test
+    public void checkGetById_whenValidId_thenCompetitionIsReturned() throws Exception {
         mockMvc.perform(get("/competitions/1")
                         .contentType("application/json"))
                 .andExpect(status().isOk());
