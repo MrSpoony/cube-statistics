@@ -36,7 +36,7 @@ class TownControllerTest {
     }
 
     @Test
-    public void checkGetById_whenValidId_thenCuberIsReturned() throws Exception {
+    public void checkGetById_whenValidId_thenTownIsReturned() throws Exception {
         mockMvc.perform(get("/towns/1")
                         .contentType("application/json"))
                 .andExpect(status().isOk());

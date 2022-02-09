@@ -10,5 +10,4 @@ class CubeApiApplicationTests {
     @Test
     void contextLoads() {
     }
-
 }

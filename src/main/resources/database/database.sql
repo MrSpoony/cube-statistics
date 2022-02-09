@@ -8,8 +8,7 @@ CREATE SCHEMA IF NOT EXISTS cube_db DEFAULT CHARACTER SET utf8;
 USE cube_db;
 
 DROP TABLE IF EXISTS cube_db.`event`;
-CREATE TABLE IF NOT EXISTS cube_db.`event`
-(
+CREATE TABLE IF NOT EXISTS cube_db.`event` (
     `id`       INT         NOT NULL AUTO_INCREMENT,
     `name`     VARCHAR(45) NOT NULL,
     `wcalegal` TINYINT     NOT NULL,
@@ -19,8 +18,7 @@ CREATE TABLE IF NOT EXISTS cube_db.`event`
 
 
 DROP TABLE IF EXISTS cube_db.`country`;
-CREATE TABLE IF NOT EXISTS cube_db.`country`
-(
+CREATE TABLE IF NOT EXISTS cube_db.`country` (
     `id`   INT          NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
     PRIMARY KEY (`id`)
@@ -29,8 +27,7 @@ CREATE TABLE IF NOT EXISTS cube_db.`country`
 
 
 DROP TABLE IF EXISTS cube_db.`manufacture`;
-CREATE TABLE IF NOT EXISTS cube_db.`manufacture`
-(
+CREATE TABLE IF NOT EXISTS cube_db.`manufacture` (
     `id`         INT         NOT NULL AUTO_INCREMENT,
     `name`       VARCHAR(45) NOT NULL,
     `country_id` INT         NOT NULL,
@@ -46,8 +43,7 @@ CREATE TABLE IF NOT EXISTS cube_db.`manufacture`
 
 
 DROP TABLE IF EXISTS cube_db.`cube`;
-CREATE TABLE IF NOT EXISTS cube_db.`cube`
-(
+CREATE TABLE IF NOT EXISTS cube_db.`cube` (
     `id`             INT          NOT NULL AUTO_INCREMENT,
     `name`           VARCHAR(100) NOT NULL,
     `event_id`       INT          NOT NULL,
@@ -70,8 +66,7 @@ CREATE TABLE IF NOT EXISTS cube_db.`cube`
 
 
 DROP TABLE IF EXISTS cube_db.`cuber`;
-CREATE TABLE IF NOT EXISTS cube_db.`cuber`
-(
+CREATE TABLE IF NOT EXISTS cube_db.`cuber` (
     `id`         INT          NOT NULL AUTO_INCREMENT,
     `firstname`  VARCHAR(100) NULL,
     `lastname`   VARCHAR(100) NULL,
@@ -89,8 +84,7 @@ CREATE TABLE IF NOT EXISTS cube_db.`cuber`
 
 
 DROP TABLE IF EXISTS cube_db.`town`;
-CREATE TABLE IF NOT EXISTS cube_db.`town`
-(
+CREATE TABLE IF NOT EXISTS cube_db.`town` (
     `id`         INT          NOT NULL AUTO_INCREMENT,
     `name`       VARCHAR(100) NOT NULL,
     `postcode`   INT          NOT NULL,
@@ -107,8 +101,7 @@ CREATE TABLE IF NOT EXISTS cube_db.`town`
 
 
 DROP TABLE IF EXISTS cube_db.`location`;
-CREATE TABLE IF NOT EXISTS cube_db.`location`
-(
+CREATE TABLE IF NOT EXISTS cube_db.`location` (
     `id`       INT          NOT NULL AUTO_INCREMENT,
     `location` VARCHAR(255) NOT NULL,
     `town_id`  INT          NOT NULL,
@@ -124,8 +117,7 @@ CREATE TABLE IF NOT EXISTS cube_db.`location`
 
 
 DROP TABLE IF EXISTS cube_db.`competition`;
-CREATE TABLE IF NOT EXISTS cube_db.`competition`
-(
+CREATE TABLE IF NOT EXISTS cube_db.`competition` (
     `id`          INT          NOT NULL AUTO_INCREMENT,
     `name`        VARCHAR(100) NOT NULL,
     `date`        DATE         NOT NULL,
@@ -142,8 +134,7 @@ CREATE TABLE IF NOT EXISTS cube_db.`competition`
 
 
 DROP TABLE IF EXISTS cube_db.`time`;
-CREATE TABLE IF NOT EXISTS cube_db.`time`
-(
+CREATE TABLE IF NOT EXISTS cube_db.`time` (
     `id`             INT   NOT NULL AUTO_INCREMENT,
     `time`           FLOAT NULL,
     `cuber_id`       INT   NOT NULL,
@@ -172,8 +163,7 @@ CREATE TABLE IF NOT EXISTS cube_db.`time`
 
 
 DROP TABLE IF EXISTS cube_db.`cuber_has_cube`;
-CREATE TABLE IF NOT EXISTS cube_db.`cuber_has_cube`
-(
+CREATE TABLE IF NOT EXISTS cube_db.`cuber_has_cube` (
     `id`       INT     NOT NULL AUTO_INCREMENT,
     `cube_id`  INT     NOT NULL,
     `cuber_id` INT     NOT NULL,
@@ -196,8 +186,7 @@ CREATE TABLE IF NOT EXISTS cube_db.`cuber_has_cube`
 
 
 DROP TABLE IF EXISTS cube_db.`cuber_has_mainevent`;
-CREATE TABLE IF NOT EXISTS cube_db.`cuber_has_mainevent`
-(
+CREATE TABLE IF NOT EXISTS cube_db.`cuber_has_mainevent` (
     `id`       INT NOT NULL AUTO_INCREMENT,
     `event_id` INT NOT NULL,
     `cuber_id` INT NOT NULL,

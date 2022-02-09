@@ -36,7 +36,7 @@ class CountryControllerTest {
     }
 
     @Test
-    public void checkGetById_whenValidId_thenCuberIsReturned() throws Exception {
+    public void checkGetById_whenValidId_thenCountryIsReturned() throws Exception {
         mockMvc.perform(get("/countries/1")
                         .contentType("application/json"))
                 .andExpect(status().isOk());

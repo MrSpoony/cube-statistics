@@ -1,6 +1,6 @@
 USE cube_db;
 
-SET FOREIGN_KEY_CHECKS=0;
+SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE cube_db.time;
 TRUNCATE TABLE cube_db.competition;
 TRUNCATE TABLE cube_db.location;
@@ -12,7 +12,7 @@ TRUNCATE TABLE cube_db.cube;
 TRUNCATE TABLE cube_db.event;
 TRUNCATE TABLE cube_db.manufacture;
 TRUNCATE TABLE cube_db.country;
-SET FOREIGN_KEY_CHECKS=1;
+SET FOREIGN_KEY_CHECKS = 1;
 
 START TRANSACTION;
 INSERT INTO cube_db.country (name)
@@ -32,9 +32,9 @@ COMMIT;
 
 START TRANSACTION;
 INSERT INTO cube_db.event (name, wcalegal)
-VALUES ('3x3', true),
-       ('OH', true),
-       ('4x4', true)
+VALUES ('3x3', TRUE),
+       ('OH', TRUE),
+       ('4x4', TRUE)
 ;
 COMMIT;
 
@@ -63,11 +63,11 @@ COMMIT;
 
 START TRANSACTION;
 INSERT INTO cube_db.cuber_has_cube (cube_id, cuber_id, maincube)
-VALUES (1, 1, false),
-       (2, 1, false),
-       (3, 1, true),
-       (1, 2, false),
-       (2, 2, true)
+VALUES (1, 1, FALSE),
+       (2, 1, FALSE),
+       (3, 1, TRUE),
+       (1, 2, FALSE),
+       (2, 2, TRUE)
 ;
 COMMIT;
 
@@ -94,7 +94,7 @@ COMMIT;
 START TRANSACTION;
 INSERT INTO cube_db.time (time, cuber_id, competition_id, cube_id)
 VALUES (12.11, 1, 1, 3),
-       (null, 1, 1, 3),
+       (NULL, 1, 1, 3),
        (19.84, 1, 1, 3),
        (13.87, 1, 1, 3),
        (17.42, 1, 1, 3)

@@ -12,7 +12,14 @@ import java.util.List;
 
 public class TestData {
 
-    public static List<Competition> getCompetitionTestData() {
+
+    public static List<Competition> getTestCompetition() {
+        List<Competition> competitions = new ArrayList<>();
+        competitions.add(getTestCompetitions().get(0));
+        return competitions;
+    }
+
+    public static List<Competition> getTestCompetitions() {
         List<Competition> competitions = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
