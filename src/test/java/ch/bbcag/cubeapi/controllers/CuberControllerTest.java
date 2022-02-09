@@ -9,10 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.validation.ConstraintViolationException;
 import java.util.TimeZone;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -35,7 +36,6 @@ public class CuberControllerTest {
     private CuberService cuberService;
 
     @BeforeEach
-
     public void prepare() {
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
@@ -82,16 +82,17 @@ public class CuberControllerTest {
                                   "lastname": "Testperson",
                                   "birthdate": "2022-02-04T12:46:29.972Z",
                                   "country": {
-                                    "id": 1,
+                                    "id": 1
                                   },
                                   "mainevents": [
                                     {
-                                      "id": 1,
+                                      "id": 1
                                     }
                                   ],
                                   "cubes": [
                                     {
-                                      "id": 1,
+                                      "id": 1
+                                    }
                                   ],
                                   "times": [
                                   ]
@@ -107,9 +108,69 @@ public class CuberControllerTest {
                         .contentType("application/json")
                         .content("""
                                 {
-                                    "thisIsAFieldNameWhichDefinitelyDoesNotExist": "Cuber1",
+                                    "thisisafieldnamewhichdefinitelydoesnotexist": "cuber1"
                                 }
                                 """))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void checkPut_whenValidCuber_thenIsOk() throws Exception {
+        mockMvc.perform(put("/cubers")
+                        .contentType("application/json")
+                        .content("""
+                                {
+                                  "id": 1,
+                                  "firstname": "Testperson",
+                                  "lastname": "Testperson",
+                                  "birthdate": "2022-02-04T12:46:29.972Z",
+                                  "country": {
+                                    "id": 1
+                                  },
+                                  "mainevents": [
+                                    {
+                                      "id": 1
+                                    }
+                                  ],
+                                  "cubes": [
+                                    {
+                                      "id": 1
+                                    }
+                                  ],
+                                  "times": [
+                                  ]
+                                }
+                                """))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void checkPut_whenInvalidCuber_thenIsConflict() throws Exception {
+        doThrow(ConstraintViolationException.class).when(cuberService).update(new Cuber());
+        mockMvc.perform(put("/cubers")
+                .contentType("application/json")
+                .content("""
+                                        {
+                                            "thisisafieldnamewhichdefinitelydoesnotexist": "cuber1"
+                                        }
+                        """))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void checkDelete_whenValidId_thenIsOk() throws Exception {
+        mockMvc.perform(delete("/cubers/1")
+                        .contentType("application/json"))
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
+    public void checkDelete_whenInvalidId_thenIsNotFound() throws Exception {
+        doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND)).when(cuberService).deleteById(99999);
+        mockMvc.perform(delete("/cubers/99999")
+                        .contentType("application/json"))
+                .andExpect(status().isNotFound());
+        assertEquals("Test", "Test");
     }
 }
