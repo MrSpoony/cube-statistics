@@ -61,7 +61,8 @@ public class EventController {
     @Operation(summary = "Add a new event.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Event successfully added"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new Event")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while adding the event"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new event")
     })
     public void insert(@RequestBody @Valid Event event) {
         eventService.insert(event);
@@ -72,7 +73,8 @@ public class EventController {
     @Operation(summary = "Update an existing event.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Event successfully updated"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the Event")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while updating the event"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the event")
     })
     public void update(@RequestBody @Valid Event event) {
         eventService.update(event);

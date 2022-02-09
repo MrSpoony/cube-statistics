@@ -61,7 +61,8 @@ public class CubeController {
     @Operation(summary = "Add a new cube.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Cube successfully added"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new Cube")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while adding the cube"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new cube")
     })
     public void insert(@RequestBody @Valid Cube cube) {
         cubeService.insert(cube);
@@ -72,7 +73,8 @@ public class CubeController {
     @Operation(summary = "Update an existing cube.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cube successfully updated"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the Cube")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while updating the cube"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the cube")
     })
     public void update(@RequestBody @Valid Cube cube) {
         cubeService.update(cube);

@@ -49,7 +49,7 @@ public class CuberController {
             and/or their mainevent
             and/or their country.
             Use multiple arguments are to specify your search.
-            If no argument is given returns all Cubers.""")
+            If no argument is given returns all cubers.""")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
@@ -67,7 +67,7 @@ public class CuberController {
                     if there is no space in the name, search starts for first- and lastnames,
                     if there is a space search starts for the firstname
                     with the part before the last space
-                    if argument is not given return all Cubers.
+                    if argument is not given return all cubers.
                     """) @RequestParam(required = false) String name,
             @Parameter(description = """
                     Name of the main cube from the cuber you want to search for.
@@ -101,7 +101,8 @@ public class CuberController {
     @Operation(summary = "Add a new cuber.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Cuber successfully added"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new Cuber")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while adding the cuber"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new cuber")
     })
     public void insert(@RequestBody @Valid Cuber cuber) {
         cuberService.insert(cuber);
@@ -112,7 +113,8 @@ public class CuberController {
     @Operation(summary = "Update an existing cuber.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cuber successfully updated"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the Cuber")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while updating the cuber"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the cuber")
     })
     public void update(@RequestBody @Valid Cuber cuber) {
         cuberService.update(cuber);

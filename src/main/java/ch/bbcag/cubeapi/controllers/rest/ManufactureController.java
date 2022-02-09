@@ -61,7 +61,8 @@ public class ManufactureController {
     @Operation(summary = "Add a new manufacture.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Manufacture successfully added"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new Manufacture")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while adding the manufacture"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new manufacture")
     })
     public void insert(@RequestBody @Valid Manufacture manufacture) {
         manufactureService.insert(manufacture);
@@ -72,6 +73,7 @@ public class ManufactureController {
     @Operation(summary = "Update an existing manufacture.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Manufacture successfully updated"),
+            @ApiResponse(responseCode = "400", description = "Something went wrong while updating the manufacture"),
             @ApiResponse(responseCode = "409", description = "There was a conflict while updating the Manufacture")
     })
     public void update(@RequestBody @Valid Manufacture manufacture) {

@@ -61,7 +61,8 @@ public class CountryController {
     @Operation(summary = "Add a new country.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Country successfully added"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new Country")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while adding the country"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new country")
     })
     public void insert(@RequestBody @Valid Country country) {
         countryService.insert(country);
@@ -72,7 +73,8 @@ public class CountryController {
     @Operation(summary = "Update an existing country.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Country successfully updated"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the Country")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while updating the country"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the country")
     })
     public void update(@RequestBody @Valid Country country) {
         countryService.update(country);

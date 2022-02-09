@@ -96,7 +96,8 @@ public class CompetitionController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Add a new competition.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "competition successfully added"),
+            @ApiResponse(responseCode = "201", description = "Competition successfully added"),
+            @ApiResponse(responseCode = "400", description = "Something went wrong while adding the competition"),
             @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new Competition")
     })
     public void insert(@RequestBody @Valid Competition competition) {
@@ -108,6 +109,7 @@ public class CompetitionController {
     @Operation(summary = "Update an existing competition.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Competition successfully updated"),
+            @ApiResponse(responseCode = "400", description = "Something went wrong while updating the competition"),
             @ApiResponse(responseCode = "409", description = "There was a conflict while updating the Competition")
     })
     public void update(@RequestBody @Valid Competition competition) {

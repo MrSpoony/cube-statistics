@@ -61,7 +61,8 @@ public class TownController {
     @Operation(summary = "Add a new town.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Town successfully added"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new Town")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while adding the town"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new town")
     })
     public void insert(@RequestBody @Valid Town town) {
         townService.insert(town);
@@ -72,7 +73,8 @@ public class TownController {
     @Operation(summary = "Update an existing town.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Town successfully updated"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the Town")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while updating the town"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the town")
     })
     public void update(@RequestBody @Valid Town town) {
         townService.update(town);

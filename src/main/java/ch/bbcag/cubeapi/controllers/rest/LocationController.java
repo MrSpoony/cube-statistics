@@ -61,7 +61,8 @@ public class LocationController {
     @Operation(summary = "Add a new location.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Location successfully added"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new Location")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while adding the location"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while adding the new location")
     })
     public void insert(@RequestBody @Valid Location location) {
         locationService.insert(location);
@@ -72,7 +73,8 @@ public class LocationController {
     @Operation(summary = "Update an existing location.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Location successfully updated"),
-            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the Location")
+            @ApiResponse(responseCode = "400", description = "Something went wrong while updating the location"),
+            @ApiResponse(responseCode = "409", description = "There was a conflict while updating the location")
     })
     public void update(@RequestBody @Valid Location location) {
         locationService.update(location);
