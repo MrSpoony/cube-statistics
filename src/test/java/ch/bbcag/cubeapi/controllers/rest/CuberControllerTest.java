@@ -1,6 +1,5 @@
-package ch.bbcag.cubeapi.controllers;
+package ch.bbcag.cubeapi.controllers.rest;
 
-import ch.bbcag.cubeapi.controllers.rest.CuberController;
 import ch.bbcag.cubeapi.models.Cuber;
 import ch.bbcag.cubeapi.services.CuberService;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doThrow;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
@@ -102,7 +100,7 @@ public class CuberControllerTest {
     }
 
     @Test
-    public void checkPost_whenInvalidCuber_thenIsConflict() throws Exception {
+    public void checkPost_whenInvalidCuber_thenIsBadRequest() throws Exception {
         doThrow(ConstraintViolationException.class).when(cuberService).insert(new Cuber());
         mockMvc.perform(post("/cubers")
                         .contentType("application/json")
@@ -145,15 +143,15 @@ public class CuberControllerTest {
     }
 
     @Test
-    public void checkPut_whenInvalidCuber_thenIsConflict() throws Exception {
+    public void checkPut_whenInvalidCuber_thenIsBadRequest() throws Exception {
         doThrow(ConstraintViolationException.class).when(cuberService).update(new Cuber());
         mockMvc.perform(put("/cubers")
-                .contentType("application/json")
-                .content("""
-                                        {
-                                            "thisisafieldnamewhichdefinitelydoesnotexist": "cuber1"
-                                        }
-                        """))
+                        .contentType("application/json")
+                        .content("""
+                                {
+                                    "thisisafieldnamewhichdefinitelydoesnotexist": "cuber1"
+                                }
+                                """))
                 .andExpect(status().isBadRequest());
     }
 
