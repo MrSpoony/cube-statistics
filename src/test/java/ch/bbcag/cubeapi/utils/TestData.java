@@ -1,13 +1,12 @@
 package ch.bbcag.cubeapi.utils;
 
-import ch.bbcag.cubeapi.models.Competition;
-import ch.bbcag.cubeapi.models.Country;
-import ch.bbcag.cubeapi.models.Location;
-import ch.bbcag.cubeapi.models.Town;
+import ch.bbcag.cubeapi.models.*;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class TestData {
@@ -39,5 +38,40 @@ public class TestData {
             competitions.add(competition);
         }
         return competitions;
+    }
+
+    public static List<Cuber> getTestCuber(int index) {
+        List<Cuber> cuber = new ArrayList<>();
+        cuber.add(getTestCubers().get(index));
+        return cuber;
+    }
+
+    public static List<Cuber> getTestCubers() {
+        List<Cuber> cubers = new ArrayList<>();
+        Set<Event> mainevents = getTestEvents();
+
+        for (int i = 0; i < 5; i++) {
+            Cuber cuber = new Cuber();
+            cuber.setFirstname("CuberFirstname " + i);
+            cuber.setLastname("CuberLastname " + i);
+            cuber.setMainevents(mainevents);
+            Country country = new Country();
+            country.setName("Country " + i);
+            cuber.setCountry(country);
+            cuber.setBirthdate(new Date(2022, 1, 1));
+            cubers.add(cuber);
+        }
+        return cubers;
+    }
+
+    private static Set<Event> getTestEvents() {
+        Set<Event> events = new HashSet<>();
+        for (int i = 0; i < 5; i++) {
+            Event event = new Event();
+            event.setWcalegal(true);
+            event.setName("Event " + i);
+            events.add(event);
+        }
+        return events;
     }
 }

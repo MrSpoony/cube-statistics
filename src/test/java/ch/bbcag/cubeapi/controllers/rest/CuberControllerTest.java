@@ -2,13 +2,17 @@ package ch.bbcag.cubeapi.controllers.rest;
 
 import ch.bbcag.cubeapi.models.Cuber;
 import ch.bbcag.cubeapi.services.CuberService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
+import static ch.bbcag.cubeapi.utils.TestData.getTestCuber;
+import static ch.bbcag.cubeapi.utils.TestData.getTestCubers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -17,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 import java.util.TimeZone;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -33,6 +38,9 @@ public class CuberControllerTest {
 
     @MockBean
     private CuberService cuberService;
+
+    @Autowired
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     public void prepare() {
@@ -55,11 +63,58 @@ public class CuberControllerTest {
     }
 
     @Test
-    public void checkGet_whenExistingName_thenIsOk() throws Exception {
+    public void checkGet_whenExistingName_thenIsOkAndIsReturned() throws Exception {
+        int index = 0;
+        List<Cuber> cuber = getTestCuber(index);
+        String cuberString = objectMapper.writeValueAsString(cuber);
+
+        doReturn(cuber).when(cuberService).findCubers(Integer.toString(index), null, null, null);
         mockMvc.perform(get("/cubers")
                         .contentType("application/json")
-                        .queryParam("name", "Kimi"))
-                .andExpect(status().isOk());
+                        .queryParam("name", Integer.toString(index)))
+                .andExpect(status().isOk())
+                .andExpect(content().string(cuberString));
+    }
+
+    @Test
+    public void checkGet_whenExistingMainCube_thenIsOkAndIsReturned() throws Exception {
+        int index = 1;
+        List<Cuber> cuber = getTestCuber(index);
+        String cuberString = objectMapper.writeValueAsString(cuber);
+
+        doReturn(cuber).when(cuberService).findCubers(null, Integer.toString(index), null, null);
+        mockMvc.perform(get("/cubers")
+                        .contentType("application/json")
+                        .queryParam("maincube", Integer.toString(index)))
+                .andExpect(status().isOk())
+                .andExpect(content().string(cuberString));
+    }
+
+    @Test
+    public void checkGet_whenExistingMainEvent_thenIsOkAndIsReturned() throws Exception {
+        int index = 2;
+        List<Cuber> cuber = getTestCuber(index);
+        String cuberString = objectMapper.writeValueAsString(cuber);
+
+        doReturn(cuber).when(cuberService).findCubers(null, null, Integer.toString(index), null);
+        mockMvc.perform(get("/cubers")
+                        .contentType("application/json")
+                        .queryParam("mainevent", Integer.toString(index)))
+                .andExpect(status().isOk())
+                .andExpect(content().string(cuberString));
+    }
+
+    @Test void checkGet_whenExistingCountry_thenIsOkAndIsReturned() throws Exception {
+        int index = 3;
+        List<Cuber> cuber = getTestCuber(index);
+        String cuberString = objectMapper.writeValueAsString(cuber);
+
+        doReturn(cuber).when(cuberService).findCubers(null, null, null, Integer.toString(index));
+        mockMvc.perform(get("/cubers")
+                        .contentType("application/json")
+                        .queryParam("country", Integer.toString(index)))
+                .andExpect(status().isOk())
+                .andExpect(content().string(cuberString));
     }
 
     @Test
